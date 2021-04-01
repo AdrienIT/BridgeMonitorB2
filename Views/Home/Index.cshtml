@@ -2,7 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">On cherche la solution ? :)</h1>
-    <p>Encore un <a href="https://docs.microsoft.com/aspnet/core">petit effort !</a>.</p>
-</div>
+@model List<BridgeModel>
+
+<h1>Liste des stations</h1>
+
+<ul>
+    @foreach (var Bridges in Model)
+    {
+        <li>@Bridges.BoatName</li>
+    }
+</ul>
