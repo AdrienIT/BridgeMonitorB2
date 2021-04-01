@@ -9,6 +9,26 @@
 <ul>
     @foreach (var Bridges in Model)
     {
-        <li>@Bridges.BoatName</li>
+        DateTime date1 = DateTime.Now;
+        DateTime date2 = @Bridges.ClosingDate;
+        int rez = DateTime.Compare(date2, date1);
+        string test = @date2.ToString("HH");
+        int test2 = int.Parse(test);
+        string bouchons = "Faible";
+        if (17 > test2) {
+            bouchons = "Eleve";
+            if (19 < test2) {
+                bouchons = "Eleve";
+            }
+        }
+
+        if (rez == 1) {
+            <li>Prochaine fermeture : @date2</li>
+            <li>Prochaine Réouverture : @Bridges.ReopeningDate</li>
+            <li>Raison : @Bridges.BoatName</li>
+            <li>Temps avant réouverture : @Html.Raw(@Bridges.ReopeningDate - @Bridges.ClosingDate)</li>
+            <li>@bouchons</li>
+            break;
+        }
     }
 </ul>
