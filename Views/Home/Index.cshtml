@@ -6,29 +6,63 @@
 
 <h1>Prochaine fermeture</h1>
 
-<ul>
-    @foreach (var Bridges in Model)
-    {
-        DateTime date1 = DateTime.Now;
-        DateTime date2 = @Bridges.ClosingDate;
-        int rez = DateTime.Compare(date2, date1);
-        string test = @date2.ToString("HH");
-        int test2 = int.Parse(test);
-        string bouchons = "Faible";
-        if (17 > test2) {
+@foreach (var Bridges in Model)
+{
+    DateTime date1 = DateTime.Now;
+    DateTime date2 = @Bridges.ClosingDate;
+    int rez = DateTime.Compare(date2, date1);
+    string test = @date2.ToString("HH");
+    int test2 = int.Parse(test);
+    string bouchons = "Faible";
+    if (17 > test2) {
+        bouchons = "Eleve";
+        if (19 < test2) {
             bouchons = "Eleve";
-            if (19 < test2) {
-                bouchons = "Eleve";
-            }
-        }
-
-        if (rez == 1) {
-            <li>Prochaine fermeture : @date2</li>
-            <li>Prochaine Réouverture : @Bridges.ReopeningDate</li>
-            <li>Raison : @Bridges.BoatName</li>
-            <li>Temps avant réouverture : @Html.Raw(@Bridges.ReopeningDate - @Bridges.ClosingDate)</li>
-            <li>@bouchons</li>
-            break;
         }
     }
-</ul>
+
+    if (rez == 1) {
+        <ul class="list-group">
+        <li class="list-group-item">Prochaine fermeture : @date2</li>
+        <li class="list-group-item">Prochaine Réouverture : @Bridges.ReopeningDate</li>
+        <li class="list-group-item">Raison : @Bridges.BoatName</li>
+        <li class="list-group-item">Temps avant réouverture : @Html.Raw(@Bridges.ReopeningDate - @Bridges.ClosingDate)</li>
+        <li class="list-group-item">Traffic : @bouchons</li>
+        <li class="list-group-item">Temps avant réouverture : <span id="countdown"> </span> </li>
+        </ul>
+
+        <script type="text/javascript">
+        var end = new Date("@Html.Raw(date2)");
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+        var timer;
+
+        function showRemaining() {
+            var now = new Date();
+            var distance = end - now;
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById('countdown').innerHtml = "EXPIRED";
+                return;
+            }
+            var days = Math.floor(distance / _day);
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+
+            document.getElementById('countdown').innerHTML = days + ' Jours ';
+            document.getElementById('countdown').innerHTML += hours + ' Heures ';
+            document.getElementById('countdown').innerHTML += minutes + ' minutes ';
+            document.getElementById('countdown').innerHTML += seconds + ' secondes';
+            }
+
+            timer = setInterval(showRemaining, 1000);
+
+        console.log(end);
+        </script>
+
+        break;
+    }
+}
