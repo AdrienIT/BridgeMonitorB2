@@ -27,6 +27,12 @@ namespace BridgeMonitor.Controllers
             return View(bridge);
         }
 
+        public IActionResult All()
+        {
+            var bridge = GetBridgesFromApi();
+            return View(bridge);
+        }
+
         public IActionResult Privacy()
         {
             return View();

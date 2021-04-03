@@ -1,0 +1,64 @@
+@{
+    ViewData["Title"] = "Toutes les fermetures";
+    //ListOfClosing = ListOfClosing.OrderBy(closing=>Convert.ToDateTime(closing.ClosingDate)).ToList();
+}
+
+@model List<BridgeModel>
+
+@{
+    List<BridgeModel> y = new List<BridgeModel>();
+    List<BridgeModel> z = new List<BridgeModel>();    
+}
+
+@foreach (var Bridges in Model) {
+    DateTime date1 = DateTime.Now;
+    DateTime date2 = @Bridges.ClosingDate;
+    int rez = DateTime.Compare(date2, date1);
+    if (rez == 1) {
+        z.Add(Bridges);
+    } else {
+        y.Add(Bridges);
+    }
+}
+
+<h1>Fermeture passés</h1>
+<table style="list-group">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Date fermeture</th>
+            <th>Durée fermeture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Bridges in y)
+        {
+            <tr>
+                <td>@Bridges.BoatName</td>
+                <td>@Bridges.ClosingDate</td>
+                <td>@Html.Raw(@Bridges.ReopeningDate - @Bridges.ClosingDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h1>Fermeture à venir</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Date fermeture</th>
+            <th>Durée fermeture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Bridges in z)
+        {
+            <tr>
+                <td>@Bridges.BoatName</td>
+                <td>@Bridges.ClosingDate</td>
+                <td>@Html.Raw(@Bridges.ReopeningDate - @Bridges.ClosingDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>
